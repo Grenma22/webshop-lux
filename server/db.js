@@ -57,7 +57,23 @@ db.exec(`
     FOREIGN KEY(order_id) REFERENCES orders(id),
     FOREIGN KEY(product_id) REFERENCES products(id)
   );
+
+  CREATE TABLE IF NOT EXISTS settings (
+    key TEXT PRIMARY KEY,
+    value TEXT
+  );
 `);
+
+// Seed default settings if empty
+const settingsCount = db.prepare('SELECT COUNT(*) as count FROM settings').get().count;
+if (settingsCount === 0) {
+  const insertSetting = db.prepare('INSERT INTO settings (key, value) VALUES (?, ?)');
+  insertSetting.run('shop_name', 'LUX. Shop');
+  insertSetting.run('vat_rate', '19');
+  insertSetting.run('free_shipping_threshold', '100');
+  insertSetting.run('contact_email', 'atellier@lux-shop.de');
+  console.log('Created default shop settings');
+}
 
 // Seed default admins if empty
 const adminCount = db.prepare('SELECT COUNT(*) as count FROM admins').get().count;

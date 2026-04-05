@@ -6,8 +6,15 @@ WORKDIR /app
 # Temporarily copy package files to install dependencies
 COPY package.json package-lock.json ./
 
-# Install dependencies (only required on first build if node_modules isn't mounted properly)
+# Install dependencies
 RUN npm install
 
-# The rest is mounted via volume in compose
-CMD ["npm", "run", "dev"]
+# Copy all source files
+COPY . .
+
+# Build frontend
+RUN npm run build
+
+# The rest is mounted via volume in compose for dev, 
+# but for production we just serve or use the build.
+CMD ["npm", "run", "preview", "--", "--host"]
