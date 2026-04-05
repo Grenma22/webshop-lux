@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useApi } from '../../hooks/useApi';
-import { Search, Filter, ExternalLink, Clock, CheckCircle, Send, XCircle } from 'lucide-react';
+import { 
+  Search, Filter, ExternalLink, Clock, 
+  CheckCircle, Send, XCircle, MoreHorizontal,
+  ChevronRight, Calendar, User
+} from 'lucide-react';
 import OrderDetailDrawer from '../../components/OrderDetailDrawer';
 
 export default function AdminOrders() {
@@ -51,12 +55,11 @@ export default function AdminOrders() {
         body: JSON.stringify({ status: newStatus }) 
       });
       loadOrders();
-      // Update selected order in drawer if open
       if (selectedOrder && selectedOrder.id === id) {
         setSelectedOrder(prev => ({ ...prev, status: newStatus }));
       }
     } catch (err) {
-      alert('Fehler beim Status Update: ' + err.message);
+      alert('Security Breach: ' + err.message);
     }
   };
 
@@ -66,85 +69,115 @@ export default function AdminOrders() {
   };
 
   if (loading) return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-      <div className="w-12 h-12 rounded-full border-2 border-t-accent-primary border-white/10 animate-spin"></div>
-      <p className="text-text-secondary animate-pulse uppercase tracking-widest text-xs">Bestellungen laden...</p>
+    <div className="flex flex-col items-center justify-center min-h-[40vh] gap-6">
+      <div className="w-10 h-10 border-2 border-t-accent-primary border-white/5 rounded-full animate-spin"></div>
+      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-text-muted animate-pulse">Syncing Transactions</p>
     </div>
   );
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <h1 className="text-3xl font-bold font-accent">Bestellungen</h1>
-        
-        <div className="flex flex-col sm:flex-row gap-4 flex-1 max-w-2xl justify-end">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-2.5 text-text-muted" size={18} />
-            <input 
-              type="text" 
-              placeholder="Suchen nach Kunde oder ID..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-black/40 border border-white/10 rounded-lg p-2.5 pl-10 text-white focus:border-accent-primary outline-none transition-colors"
-            />
+    <div className="space-y-12 animate-in fade-in slide-in-from-bottom-2 duration-1000">
+      {/* Editorial Header */}
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-10">
+        <div>
+          <div className="flex items-center gap-3 mb-6">
+             <div className="h-[1px] w-12 bg-accent-primary/50"></div>
+             <p className="text-[10px] uppercase font-bold tracking-[0.4em] text-accent-primary">Transaction Ledger</p>
           </div>
-          <div className="relative">
-            <Filter className="absolute left-3 top-2.5 text-text-muted" size={18} />
-            <select 
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="appearance-none bg-black/40 border border-white/10 rounded-lg p-2.5 pl-10 pr-10 text-white focus:border-accent-primary outline-none transition-colors"
-            >
-              <option value="all">Alle Status</option>
-              <option value="pending">Ausstehend</option>
-              <option value="paid">Bezahlt</option>
-              <option value="shipped">Versendet</option>
-              <option value="cancelled">Storniert</option>
-            </select>
+          <h1 className="text-5xl font-bold font-serif tracking-tight">Couture Sales Fulfillment</h1>
+          <p className="text-text-muted mt-4 text-sm max-w-lg font-light">
+            Oversee and finalize client orders. Monitor the fulfillment timeline from initial payment to professional shipment for every atelier creation.
+          </p>
+        </div>
+        <div className="flex bg-white/[0.03] border border-white/[0.05] rounded-lg p-1 glass-couture">
+           <button className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-accent-primary bg-white/[0.05] rounded-md transition-all">Live Fulfillment</button>
+           <button className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-text-muted hover:text-white transition-all">Export Report</button>
+        </div>
+      </header>
+
+      {/* Modern Control Bar */}
+      <div className="flex flex-col lg:flex-row gap-6 p-1 bg-white/[0.02] border border-white/[0.05] rounded-xl overflow-hidden glass-couture shadow-lux">
+        <div className="relative flex-1 group">
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-accent-primary transition-colors" size={16} />
+          <input 
+            type="text" 
+            placeholder="Search transactions by reference, client or email..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full bg-transparent border-none rounded-none p-6 pl-14 text-white focus:ring-0 outline-none transition-colors text-[13px] uppercase tracking-wider font-medium placeholder:text-text-muted/50"
+          />
+        </div>
+        <div className="flex items-center gap-6 pr-6 border-l border-white/[0.05]">
+          <div className="flex items-center gap-3 ml-6">
+            <Filter size={14} className="text-text-muted" />
+             <div className="flex gap-1.5 p-1 bg-black/40 rounded-lg">
+                {['all', 'pending', 'paid', 'shipped'].map(status => (
+                  <button 
+                    key={status}
+                    onClick={() => setFilterStatus(status)}
+                    className={`px-4 py-1.5 rounded-md text-[9px] font-bold uppercase tracking-widest transition-all ${filterStatus === status ? 'bg-accent-gradient text-bg-primary shadow-sm' : 'text-text-muted hover:text-white'}`}
+                  >
+                    {status === 'all' ? 'Entire Inventory' : status}
+                  </button>
+                ))}
+             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-black/40 border border-white/10 rounded-xl overflow-hidden glass-morphism">
+      {/* Transaction Canvas */}
+      <div className="admin-card !p-0 shadow-2xl">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="admin-table">
             <thead>
-              <tr className="border-b border-white/10 bg-white/5">
-                <th className="p-5 font-semibold text-text-secondary text-xs uppercase tracking-wider">Bestell-Nr.</th>
-                <th className="p-5 font-semibold text-text-secondary text-xs uppercase tracking-wider">Datum</th>
-                <th className="p-5 font-semibold text-text-secondary text-xs uppercase tracking-wider">Kunde</th>
-                <th className="p-5 font-semibold text-text-secondary text-xs uppercase tracking-wider text-right">Betrag</th>
-                <th className="p-5 font-semibold text-text-secondary text-xs uppercase tracking-wider">Status</th>
-                <th className="p-5 font-semibold text-text-secondary text-xs uppercase tracking-wider text-right">Aktionen</th>
+              <tr>
+                <th className="pl-10">Consignment ID</th>
+                <th>Client Details</th>
+                <th>Valuation</th>
+                <th>Fulfillment Status</th>
+                <th className="pr-10 text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredOrders.length === 0 ? (
-                <tr><td colSpan="6" className="p-12 text-center text-text-secondary italic">Keine Bestellungen gefunden.</td></tr>
+                <tr><td colSpan="5" className="p-20 text-center text-text-muted font-serif text-xl opacity-30 italic">No Active Transactions</td></tr>
               ) : filteredOrders.map(order => (
-                <tr key={order.id} className="border-b border-white/5 hover:bg-white/5 transition-colors group">
-                  <td className="p-5 font-mono text-sm tracking-tighter">#{order.id.toString().padStart(4, '0')}</td>
-                  <td className="p-5">
-                    <p className="text-sm font-medium">{new Date(order.created_at).toLocaleDateString('de-DE')}</p>
-                    <p className="text-[10px] text-text-muted mt-0.5">{new Date(order.created_at).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</p>
+                <tr key={order.id} className="group hover:bg-white/[0.01]">
+                  <td className="pl-10">
+                    <div className="flex flex-col">
+                      <span className="font-mono text-sm tracking-tight text-white group-hover:text-accent-primary transition-colors">#{order.id.toString().padStart(6, '0')}</span>
+                      <div className="flex items-center gap-2 mt-1 text-[9px] font-bold text-text-muted uppercase">
+                         <Calendar size={10} /> {new Date(order.created_at).toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).toUpperCase()}
+                      </div>
+                    </div>
                   </td>
-                  <td className="p-5">
-                    <p className="text-sm font-bold group-hover:text-accent-primary transition-colors">{order.shipping_name || 'N/A'}</p>
-                    <p className="text-xs text-text-secondary">{order.email}</p>
+                  <td>
+                    <div className="flex items-center gap-4">
+                      <div className="w-9 h-9 rounded-full bg-white/[0.03] border border-white/[0.05] flex items-center justify-center text-[11px] font-bold text-text-muted group-hover:border-accent-primary/20 transition-all">
+                        {order.shipping_name?.charAt(0)}
+                      </div>
+                      <div className="flex flex-col">
+                         <p className="text-xs font-bold uppercase tracking-wide group-hover:text-white transition-colors">{order.shipping_name || 'Anonymous Client'}</p>
+                         <p className="text-[9px] text-text-muted mt-0.5">{order.email.toLowerCase()}</p>
+                      </div>
+                    </div>
                   </td>
-                  <td className="p-5 text-right font-bold text-accent-primary">
-                    {order.total_amount.toFixed(2)} €
+                  <td className="font-bold text-sm tracking-tight tabular-nums">
+                    €{order.total_amount.toFixed(2)}
                   </td>
-                  <td className="p-5">
+                  <td>
                     <StatusBadge status={order.status} />
                   </td>
-                  <td className="p-5 text-right">
-                    <button 
-                      onClick={() => openDetails(order)}
-                      className="p-2 bg-white/5 rounded-lg hover:bg-white/10 text-text-secondary hover:text-white transition-all flex items-center gap-2 text-xs ml-auto border border-white/10"
-                    >
-                      <ExternalLink size={14} /> Details
-                    </button>
+                  <td className="pr-10 text-right">
+                    <div className="flex justify-end items-center gap-4">
+                       <button 
+                         onClick={() => openDetails(order)}
+                         className="px-6 py-2.5 bg-white/[0.03] hover:bg-white/[0.08] text-[10px] font-bold uppercase tracking-widest border border-white/[0.05] rounded-sm transition-all group/btn"
+                       >
+                         Manage Allocation <ChevronRight size={12} className="inline ml-1 group-hover/btn:translate-x-1 transition-transform" />
+                       </button>
+                       <MoreHorizontal size={14} className="text-text-muted opacity-50" />
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -165,29 +198,30 @@ export default function AdminOrders() {
 
 function StatusBadge({ status }) {
   const styles = {
-    paid: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-    shipped: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.1)]',
-    pending: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-    cancelled: 'bg-red-500/10 text-red-500 border-red-500/20'
+    paid: 'border-emerald-500/20 text-emerald-400 bg-emerald-500/[0.02]',
+    shipped: 'border-accent-primary/20 text-accent-brass bg-accent-primary/[0.02]',
+    pending: 'border-amber-500/20 text-amber-500 bg-amber-500/[0.02]',
+    cancelled: 'border-red-500/20 text-red-500 bg-red-500/[0.02]'
   };
   
   const labels = {
-    paid: 'Bezahlt',
-    shipped: 'Versendet',
-    pending: 'Ausstehend',
-    cancelled: 'Storniert'
+    paid: 'Finalized',
+    shipped: 'In Transit',
+    pending: 'Queued',
+    cancelled: 'Voided'
   };
 
   const icons = {
-    paid: <CheckCircle size={14} />,
-    shipped: <Send size={14} />,
-    pending: <Clock size={14} />,
-    cancelled: <XCircle size={14} />
+    paid: <CheckCircle size={10} />,
+    shipped: <Send size={10} />,
+    pending: <Clock size={10} />,
+    cancelled: <XCircle size={10} />
   };
 
   return (
-    <span className={"inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-tight border " + (styles[status] || styles.pending)}>
-      {icons[status]} {labels[status] || status}
+    <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-sm text-[9px] font-bold uppercase tracking-[0.2em] border shadow-sm ${styles[status] || styles.pending}`}>
+      {icons[status] || <Clock size={10} />}
+      {labels[status] || status}
     </span>
   );
 }

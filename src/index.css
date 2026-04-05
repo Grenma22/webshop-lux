@@ -1,55 +1,50 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
 @theme {
-  --color-accent-primary: #D4AF37; /* Gold */
-  --color-accent-secondary: #F5E6BE; /* Champagne */
-  --color-bg-primary: #08080a;
-  --color-bg-secondary: #121215;
-  --color-bg-tertiary: #1a1a1f;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #a1a1aa;
-  --color-text-muted: #71717a;
+  --color-accent-primary: #C5A059; /* Matte Brass */
+  --color-accent-secondary: #E5D5B0; /* Champagne Gold */
+  --color-bg-primary: #0A0A0C; /* Deep Obsidian */
+  --color-bg-secondary: #141417; /* Charcoal Satin */
+  --color-bg-tertiary: #1C1C21; /* Onyx */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #A0A0AB;
+  --color-text-muted: #6B6B76;
 }
 
 @import './utils.css';
 
 :root {
-  /* Premium Midnight Brass Colors */
-  --bg-primary: #08080a;
-  --bg-secondary: #121215;
-  --bg-tertiary: #1a1a1f;
-  --bg-glass: rgba(255, 255, 255, 0.03);
-  --bg-glass-hover: rgba(255, 255, 255, 0.06);
+  /* Atelier Couture Palette */
+  --bg-primary: #0A0A0C;
+  --bg-secondary: #141417;
+  --bg-tertiary: #1C1C21;
   
-  --text-primary: #ffffff;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
+  --accent-primary: #C5A059; /* Matte Brass */
+  --accent-secondary: #E5D5B0;
+  --accent-gradient: linear-gradient(135deg, #C5A059 0%, #8E7035 100%);
+  --accent-brass: #C5A059;
   
-  --accent-primary: #D4AF37; /* Gold */
-  --accent-secondary: #F5E6BE; /* Champagne */
-  --accent-gradient: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
-  --accent-glow: rgba(212, 175, 55, 0.3);
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  --text-muted: #52525B;
   
-  --success: #10b981;
-  --error: #ef4444;
-  --warning: #f59e0b;
+  --border-glass: rgba(255, 255, 255, 0.04);
+  --border-brass: rgba(197, 160, 89, 0.15);
   
-  --border-color: rgba(255, 255, 255, 0.08);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.05);
+  --bg-glass: rgba(255, 255, 255, 0.02);
+  --bg-glass-heavy: rgba(20, 20, 23, 0.8);
   
-  --shadow-glow: 0 0 25px rgba(212, 175, 55, 0.15);
-  --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 25px 80px rgba(0, 0, 0, 0.7);
+  --shadow-lux: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --shadow-brass: 0 0 20px rgba(197, 160, 89, 0.1);
   
-  --radius-sm: 4px; /* More angular for luxury feel */
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 32px;
+  --radius-xs: 2px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
   
+  --transition-couture: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-fast: 0.2s ease;
-  --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-spring: 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 * {
@@ -59,93 +54,108 @@
 }
 
 html {
-  scroll-behavior: smooth;
   background-color: var(--bg-primary);
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Outfit', 'Inter', sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   overflow-x: hidden;
 }
 
-/* Scrollbar */
+/* Scrollbar Couture */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-tertiary);
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-primary);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, .font-serif {
   font-family: 'Playfair Display', serif;
   font-weight: 500;
-  line-height: 1.1;
   letter-spacing: -0.01em;
 }
 
-/* Fluid Typography for Professional Scaling */
-h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); }
-h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
-h3 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+/* Professional Couture Layouts */
+.glass-couture {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-lux);
+}
 
-a {
-  color: var(--text-primary);
-  text-decoration: none;
+.brass-border {
+  border: 1px solid var(--border-brass);
+}
+
+.btn-couture {
+  padding: 0.75rem 1.5rem;
+  background: var(--accent-gradient);
+  color: var(--bg-primary);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
-  outline: none;
+.btn-couture:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-brass);
 }
 
-img {
-  max-width: 100%;
-  display: block;
+/* Specific Admin Polishing */
+.admin-card {
+  @apply glass-couture brass-border p-6 rounded-lg transition-all duration-500 overflow-hidden relative;
 }
 
-
-/* Increased contrast for professional readability */
-.text-secondary {
-  color: #c4c4cc; /* Lightened from a1a1aa */
+.admin-card:hover {
+  @apply border-white/10;
+  transform: translateY(-4px);
 }
 
-/* Container */
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 40px;
+.admin-table {
+  @apply w-full border-collapse text-sm;
 }
 
-@media (max-width: 768px) {
-  .container {
-    padding: 0 24px; /* Increased safe-area */
-  }
+.admin-table th {
+  @apply p-4 text-left text-[10px] uppercase tracking-widest text-text-muted font-bold border-b border-white/5;
 }
 
-/* Scroll Animations */
-.fade-up {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.fade-up.animate-in {
-  opacity: 1;
-  transform: translateY(0);
+.admin-table td {
+  @apply p-4 border-b border-white/5 transition-colors;
 }
 
+.admin-table tr:hover td {
+  @apply bg-white/[0.02];
+}
+
+/* Active Navigation Couture */
+.nav-active-couture {
+  @apply text-accent-primary relative;
+}
+
+.nav-active-couture::after {
+  content: '';
+  @apply absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-4 bg-accent-primary rounded-full shadow-[0_0_8px_var(--accent-primary)];
+}
+
+/* Chart Colors for Recharts Proxy */
+:root {
+  --color-revenue: #C5A059;
+  --color-orders: #A1A1AA;
+}
